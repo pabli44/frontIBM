@@ -1,0 +1,83 @@
+<div *ngIf="muestraLista">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+            <th colspan="7">{{title}}</th>
+            </tr>
+            <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Dirección</th>
+            <th scope="col">Ciudad</th>
+            <th scope="col">Teléfono</th>
+            <th scope="col"># de Tarjetas</th>
+            <th scope="col">Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let c of listaClientes">
+                <th scope="row">{{c.id}}</th>
+                <td class="center">{{c.nombre}}</td>
+                <td>{{c.direccion}}</td>
+                <td>{{c.ciudad}}</td>
+                <td>{{c.telefono}}</td>
+                <td><a [routerLink] = "['/tarjetas', c.id]">{{c.numeroTarjetasAsociadas}} </a> </td>
+                <td>
+                    <button (click)="enviarAModificar(c)" class="btn btn-secondary btn-sm m-2">Editar</button>
+                    <button (click)="eliminarCliente(c.id)" class="btn btn-danger btn-sm m-2">Eliminar</button>
+                </td>
+                
+            </tr>
+        </tbody>
+
+        <button class="btn btn-primary m-3" (click)="nuevoCliente()">Nuevo</button>
+    </table>
+
+    
+    <div *ngIf="muestraFormulario">
+        <form class="m-5" #formCliente="ngForm" (ngSubmit)="onSubmit(); formCliente.reset()">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Nombre: </label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="nombre" #nombre="ngModel" [(ngModel)]="cliente.nombre" maxlength="50" required>
+                </div>
+                <label class="col-sm-2 col-form-label">Dirección: </label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="direccion" #direccion="ngModel" [(ngModel)]="cliente.direccion" maxlength="100">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Ciudad: </label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="ciudad" #ciudad="ngModel" [(ngModel)]="cliente.ciudad" maxlength="30">
+                </div>
+                <label class="col-sm-2 col-form-label">Teléfono: </label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" name="telefono" #telefono="ngModel" [(ngModel)]="cliente.telefono" pattern="pat" maxlength="20" >
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label"># de Tarjetas Asociadas: </label>
+                <div class="col-sm-1">
+                    <input type="text" class="form-control" name="numeroTarjetasAsociadas" #numeroTarjetasAsociadas="ngModel" [(ngModel)]="cliente.numeroTarjetasAsociadas" maxlength="20">
+                </div>
+            </div>
+
+            <div *ngIf="muestraGuardar">
+                <button type="submit" class="btn btn-primary m-3" >Guardar</button>
+            </div>
+
+            <div *ngIf="muestraActualizar">
+                <button type="button" (click)="modificarCliente()" class="btn btn-primary m-3" >Ok</button>
+            </div>
+
+
+        </form>
+    </div>
+
+</div>
+
+<div *ngIf="!muestraLista">
+    <p>No hay datos para mostrar</p>
+</div>
+

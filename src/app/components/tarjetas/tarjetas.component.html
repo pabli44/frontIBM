@@ -1,0 +1,63 @@
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+        <th colspan="5">{{title}}</th>
+        </tr>
+        <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Numero de Tarjeta</th>
+        <th scope="col">CCV</th>
+        <th scope="col">Tipo de Tarjeta</th>
+        <th scope="col">Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let t of listaTarjetas">
+            <th scope="row">{{t.idTarjeta}}</th>
+            <td class="center"><a [routerLink] = "['/consumos', t.idTarjeta]">{{t.numeroTarjeta}}</a></td>
+            <td>{{t.ccv}}</td>
+            <td>{{t.tipoTarjeta}}</td>
+            <td>
+                <button (click)="enviarAModificar(t)" class="btn btn-secondary btn-sm m-2">Editar</button>
+                <button (click)="eliminarTarjeta(t.idTarjeta)" class="btn btn-danger btn-sm m-2">Eliminar</button>
+            </td>
+        </tr>
+    </tbody>
+
+    <button class="btn btn-primary m-3" (click)="nuevaTarjeta()">Nuevo</button>
+    <button (click)="regresarPrincipal()" class="btn btn-success m-2">Regresar</button>
+</table>
+
+<div *ngIf="muestraFormulario">
+    <form class="m-5" #formTarjeta="ngForm" (ngSubmit)="onSubmit(); formTarjeta.reset()">
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Numero Tarjeta: </label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" name="numeroTarjeta" #numeroTarjeta="ngModel" [(ngModel)]="tarjeta.numeroTarjeta" maxlength="20" required>
+            </div>
+            <label class="col-sm-2 col-form-label">CCV: </label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" name="ccv" #ccv="ngModel" [(ngModel)]="tarjeta.ccv" maxlength="4">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Tipo de Tarjeta: </label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" name="tipoTarjeta" #tipoTarjeta="ngModel" [(ngModel)]="tarjeta.tipoTarjeta" maxlength="50">
+            </div>
+        </div>
+        
+        
+        <div *ngIf="muestraGuardar">
+            <button type="submit" class="btn btn-primary m-3" >Guardar</button>
+        </div>
+
+        <div *ngIf="muestraActualizar">
+            <button type="button" (click)="modificarTarjeta()" class="btn btn-primary m-3" >Ok</button>
+        </div>
+
+    </form>
+
+</div>
+    
+    

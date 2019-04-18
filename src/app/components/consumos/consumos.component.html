@@ -1,0 +1,57 @@
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+        <th colspan="7">{{title}}</th>
+        </tr>
+        <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Id Tarjeta</th>
+        <th scope="col">Fecha de Consumo</th>
+        <th scope="col">Monto</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let c of listaConsumos">
+            <th scope="row">{{c.idConsumo}}</th>
+            <td class="center">{{c.idTarjeta}}</td>
+            <td>{{c.fechaConsumo}}</td>
+            <td>{{c.monto | currency}}</td>
+            <td>{{c.descripcion}}</td>
+            <td>
+                <button (click)="enviarAModificar(c)" class="btn btn-secondary btn-sm m-2">Editar</button>
+                <button (click)="eliminarConsumo(c.idConsumo)" class="btn btn-danger btn-sm m-2">Eliminar</button>
+            </td>
+        </tr>
+    </tbody>
+
+    <button (click)="regresarPrincipal()" class="btn btn-success m-2">Regresar</button>
+</table>
+
+<div *ngIf="muestraFormularioEditar">
+    <form class="m-5" #formConsumo="ngForm">
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Fecha de Consumo: </label>
+            <div class="col-sm-4">
+                <input type="date" class="form-control" name="fechaConsumo" #fechaConsumo="ngModel" [(ngModel)]="consumo.fechaConsumo" >
+            </div>
+            <label class="col-sm-2 col-form-label">Descripción: </label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" name="descripcion" #descripcion="ngModel" [(ngModel)]="consumo.descripcion" maxlength="100">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Monto: </label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" name="monto" #monto="ngModel" [(ngModel)]="consumo.monto" maxlength="12">
+            </div>
+        </div>
+        
+        <div>
+            <button type="button" (click)="modificarConsumo()" class="btn btn-primary m-3" >Ok</button>
+        </div>
+
+
+    </form>
+</div>
