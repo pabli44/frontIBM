@@ -17,8 +17,11 @@ export class ConsumosComponent{
     public parametro;
     public listaConsumos:any;
     public consumo:Consumo;
-    public muestraFormularioEditar:boolean=false;
-
+    public muestraFormulario:boolean=false;
+    public muestraGuardar:boolean=false;
+    public muestraActualizar:boolean=false;
+    public ultimoId;
+    public cuentaConsumos:any;
 
     constructor(
 		private _route: ActivatedRoute,
@@ -30,6 +33,8 @@ export class ConsumosComponent{
     }
     
     ngOnInit(){
+        this.cuentaConsumos = this._utilService.getConsumosCuenta();
+        this.ultimoId = this.cuentaConsumos+1;
         this.getConsumosPorTarjeta();
     }
 
@@ -43,6 +48,33 @@ export class ConsumosComponent{
         this.listaConsumos = consumos;
     };
 
+    nuevoConsumo(){
+        this.muestraFormulario = true;
+        this.muestraActualizar = false;
+        this.muestraGuardar = true;
+    }
+
+    onSubmit(){
+        let consumo:Consumo = this.consumo;
+        const idConsumo = this.ultimoId;
+        let {fechaConsumo, monto, descripcion} = consumo;
+
+        const idTarjeta = this.parametro;
+
+        let nuevoConsumo = {
+            idConsumo,
+            idTarjeta, 
+            fechaConsumo, 
+            monto, 
+            descripcion
+        }
+
+        this.listaConsumos.push(nuevoConsumo);
+        this._utilService.actualizarListaConsumos(this.listaConsumos);
+        this.muestraFormulario = false;
+        this.ultimoId = this.ultimoId+1;
+    }
+
     eliminarConsumo = idConsumo => {
         const nuevaListaConsumos = this.listaConsumos.filter(c => c.idConsumo!==idConsumo);
         this.listaConsumos = nuevaListaConsumos;
@@ -50,14 +82,21 @@ export class ConsumosComponent{
 
     enviarAModificar = consumo =>{
         this.consumo = consumo;
-        this.muestraFormularioEditar = true;
+        this.muestraFormulario = true;
+        this.muestraGuardar = false;
+        this.muestraActualizar = true;
     };
-    
-    modificarConsumo = () => {
-        this.muestraFormularioEditar = false;
-    };
+
+    modificarConsumo = () =>{
+        this.muestraFormulario = false;
+    }
 
     regresarPrincipal = () =>{
         this._router.navigate(['/clientes']);
     };
+
+    cancelarRegistro = () => {
+        this.muestraFormulario = false;
+    };
+
 }

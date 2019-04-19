@@ -56,6 +56,15 @@ export class UtilService{
         return this.clientes;
     };
 
+    getTarjetasCuenta = () => {
+        //console.log(this.tarjetas.length);
+        return this.tarjetas.length;
+    };
+
+    getConsumosCuenta = () => {
+        return this.consumos.length;
+    };
+
     getTarjetasPorCliente = idCliente => {
         const tarjetas = this.tarjetas.filter(t => t.idCliente === idCliente);
         return tarjetas;
@@ -67,18 +76,17 @@ export class UtilService{
     };
 
     //envia a la API para actualizar en BD la lista de clientes
-    actualizarListaClientes = nuevoCliente => {
-        this.clientes.push(nuevoCliente);
-        console.log("clientes: "+this.clientes);
+    actualizarListaClientes = listaClientes => {
+        this.clientes = listaClientes;
     };
 
     //envia a la API para actualizar en BD la lista de tarjetas
-    actualizarListaTarjetas = nuevaTarjeta => {
-        this.tarjetas.push(nuevaTarjeta);
+    actualizarListaTarjetas = listaTarjetas => {
+        this.tarjetas = listaTarjetas;
     };
     
     //envia a la API para actualizar en BD la lista de consumos
-    actualizarListaConsumos = nuevoConsumo => {
-        this.consumos.push(nuevoConsumo);
+    actualizarListaConsumos = listaConsumos => {
+        this.consumos = listaConsumos;
     };
 }

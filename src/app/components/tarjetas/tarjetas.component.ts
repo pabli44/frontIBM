@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { UtilService } from '../../services/util.service';
 import {Router, ActivatedRoute, Params} from '@angular/router';
 import { Tarjeta } from '../../model/tarjeta';
@@ -19,6 +19,8 @@ export class TarjetasComponent{
     public muestraFormulario:boolean=false;
     public muestraGuardar:boolean=false;
     public muestraActualizar:boolean=false;
+    public ultimoId;
+    public cuentaTarjetas:any;
 
     constructor(
 		private _route: ActivatedRoute,
@@ -28,10 +30,11 @@ export class TarjetasComponent{
     ){
         this.tarjeta = new Tarjeta("","","","","");
     }
-    
+
     ngOnInit(){
+        this.cuentaTarjetas = this._utilService.getTarjetasCuenta();
+        this.ultimoId = this.cuentaTarjetas+1;
         this.getTarjetasPorCliente();
-        console.log(this._utilService.getClientes());
     }
 
     getTarjetasPorCliente = () => {
@@ -40,9 +43,6 @@ export class TarjetasComponent{
         });
 
         const idCliente = this.parametro;
-        console.log("idCliente: "+idCliente);
-
-
         const tarjetas = this._utilService.getTarjetasPorCliente(idCliente);
         this.listaTarjetas = tarjetas;
     };
@@ -55,12 +55,8 @@ export class TarjetasComponent{
 
     onSubmit(){
         let tarjeta:Tarjeta = this.tarjeta;
-        let idTarjeta = 3;
+        const idTarjeta = this.ultimoId;
         let {numeroTarjeta, ccv, tipoTarjeta} = tarjeta;
-
-        // this._route.params.forEach((params: Params) => {
-        //     this.parametro = params['idCliente'];
-        // });
 
         const idCliente = this.parametro;
 
@@ -73,31 +69,33 @@ export class TarjetasComponent{
         }
 
         this.listaTarjetas.push(nuevaTarjeta);
-        //this._utilService.actualizarListaTarjetas(nuevaTarjeta);
+        this._utilService.actualizarListaTarjetas(this.listaTarjetas);
         this.muestraFormulario = false;
-
+        this.ultimoId = this.ultimoId+1;
     }
 
     enviarAModificar = tarjeta =>{
         this.tarjeta = tarjeta;
         this.muestraFormulario = true;
+        this.muestraGuardar = false;
+        this.muestraActualizar = true;
     };
-    
-    modificarTarjeta = () => {
+
+    modificarTarjeta = () =>{
         this.muestraFormulario = false;
-    };
+    }
     
     eliminarTarjeta = idTarjeta => {
         const nuevaListaTarjetas = this.listaTarjetas.filter(t => t.idTarjeta!==idTarjeta);
         this.listaTarjetas = nuevaListaTarjetas;
     };
 
-    crearNuevaTarjeta = () => {
-        
-    };
-    
     regresarPrincipal = () =>{
         this._router.navigate(['/clientes']);
+    };
+    
+    cancelarRegistro = () => {
+        this.muestraFormulario = false;
     };
     
 }

@@ -24,6 +24,8 @@
         </tr>
     </tbody>
 
+    
+
     <button class="btn btn-primary m-3" (click)="nuevaTarjeta()">Nuevo</button>
     <button (click)="regresarPrincipal()" class="btn btn-success m-2">Regresar</button>
 </table>
@@ -50,6 +52,7 @@
         
         <div *ngIf="muestraGuardar">
             <button type="submit" class="btn btn-primary m-3" >Guardar</button>
+            <button (click)="cancelarRegistro()" class="btn btn-danger m-3" >Cancelar</button>
         </div>
 
         <div *ngIf="muestraActualizar">

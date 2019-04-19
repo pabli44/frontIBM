@@ -26,11 +26,12 @@
         </tr>
     </tbody>
 
+    <button class="btn btn-primary m-3" (click)="nuevoConsumo()">Nuevo</button>
     <button (click)="regresarPrincipal()" class="btn btn-success m-2">Regresar</button>
 </table>
 
-<div *ngIf="muestraFormularioEditar">
-    <form class="m-5" #formConsumo="ngForm">
+<div *ngIf="muestraFormulario">
+    <form class="m-5" #formConsumo="ngForm" (ngSubmit)="onSubmit(); formTarjeta.reset()">
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Fecha de Consumo: </label>
             <div class="col-sm-4">
@@ -48,10 +49,15 @@
             </div>
         </div>
         
-        <div>
-            <button type="button" (click)="modificarConsumo()" class="btn btn-primary m-3" >Ok</button>
+         
+        <div *ngIf="muestraGuardar">
+            <button type="submit" class="btn btn-primary m-3" >Guardar</button>
+            <button (click)="cancelarRegistro()" class="btn btn-danger m-3" >Cancelar</button>
         </div>
 
+        <div *ngIf="muestraActualizar">
+            <button type="button" (click)="modificarConsumo()" class="btn btn-primary m-3" >Ok</button>
+        </div>
 
     </form>
 </div>

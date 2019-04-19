@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { UtilService } from '../../services/util.service';
-import { Observable } from 'rxjs';
 import { Cliente } from '../../model/cliente';
 
 @Component({
@@ -13,17 +12,12 @@ import { Cliente } from '../../model/cliente';
 
 export class ClienteComponent{
     public title:string = 'Clientes';
-    private titularObservable : Observable<any[]> ;
     public muestraLista:boolean=false;
     public muestraFormulario:boolean=false;
     public muestraGuardar:boolean=false;
     public muestraActualizar:boolean=false;
     public cliente:Cliente;
-    public ultimoId:number=2;
     public listaClientes:any;
-
-
-    //@Input('listaClientes') listaClientesATarjetas:any; 
 
 
     constructor(private _utilService: UtilService){
@@ -65,11 +59,9 @@ export class ClienteComponent{
             numeroTarjetasAsociadas
         }
 
-        this.ultimoId = this.ultimoId+1;
-        //this.listaClientes.push(nuevoCliente);
-        this._utilService.actualizarListaClientes(nuevoCliente);
+        this.listaClientes.push(nuevoCliente);
+        this._utilService.actualizarListaClientes(this.listaClientes);
         this.muestraFormulario = false;
-
     }
 
     enviarAModificar = cliente =>{
@@ -90,6 +82,10 @@ export class ClienteComponent{
             this.muestraLista = false;
         }
 
+    };
+
+    cancelarRegistro = () => {
+        this.muestraFormulario = false;
     };
 
 
