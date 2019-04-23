@@ -7,7 +7,7 @@ import { TarjetasComponent } from './components/tarjetas/tarjetas.component';
 import { ConsumosComponent } from './components/consumos/consumos.component';
 
 const appRoutes: Routes = [
-    {path: '', component: AppComponent},
+    {path: '', component: ClienteComponent},
     {path: 'clientes', component: ClienteComponent},
     {path: 'tarjetas/:idCliente', component: TarjetasComponent},
     {path: 'consumos/:idTarjeta', component: ConsumosComponent}
